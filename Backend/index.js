@@ -1,10 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-mongoose.connect('mongodb+srv://sima:1W238DFMvSh50S8M@cluster0.rz199gl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { 
-  useNewUrlParser: true,
-  useUnifiedTopology: true 
-});
+mongoose.connect('mongodb+srv://sima:1W238DFMvSh50S8M@cluster0.rz199gl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
    
 const db = mongoose.connection;
 
