@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
+
+app.use(cors());
+
 mongoose.connect('mongodb+srv://sima:1W238DFMvSh50S8M@cluster0.rz199gl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
    
 const db = mongoose.connection;

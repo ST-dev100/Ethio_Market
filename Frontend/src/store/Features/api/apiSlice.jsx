@@ -2,11 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
   reducerPath: "ProductsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://jsonplaceholder.typicode.com" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://ethio-market-ehzd.vercel.app" }),
   tagTypes: ["Users"],
   endpoints: (builder) => ({
     gettUsers: builder.query({
-      query: () => "photos",
+      query: () => "users",
       providesTags: ["Users"],
     }),
     createUser: builder.mutation({

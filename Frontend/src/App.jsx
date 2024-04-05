@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Home from './Components/Home';
 
 const products = [
   { name: 'Product 1', price: '$10.00' },
@@ -12,7 +12,7 @@ const App = () =>
   
   return (
     <>
-    <h1>ihiuhiuiu</h1>
+     <Home/>
   </>);
 };
 
