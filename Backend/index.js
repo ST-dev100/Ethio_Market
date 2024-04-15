@@ -8,7 +8,7 @@ app.use(cors());
 
 mongoose.connect('mongodb+srv://sima:1W238DFMvSh50S8M@cluster0.rz199gl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
    
-const db = mongoose.connection;
+const db = mongoose.connection; 
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
