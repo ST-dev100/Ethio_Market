@@ -17,7 +17,7 @@ import {
 const Home = () => {
   const { data, error, isLoading } = useGettUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(3);
+  const [productsPerPage] = useState(4);
   const [cartItems, setCartItems] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
   const [products, setProducts] = useState([]);
@@ -116,12 +116,17 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className='grid grid-cols-5'>
-      {showSideNav && <SideNavigation />}
-      <div className="flex flex-wrap justify-left mt-8 col-span-5">
+    <div className='grid grid-cols-5'>
+     
+      <div className="flex  justify-left mt-4 col-span-5">
         <SideNavigation />
+        <div className='grow'>
+          <div className='ml-32'>
+            <input className='border-2' type="text" name="" placeholder='Search Products...' id="" />
+          </div>
+         <div className='flex flex-col md:flex-row'>  
         {currentProducts.map((product) => (
-          <div key={product.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4">
+          <div key={product.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4 shrink grow">
             <div className="w-44 h-48 flex flex-no-wrap overflow-x-auto">
               <img className="w-44 h-44 object-cover" src={product.image1} alt={product.name} />
               <img className="w-44 h-44 object-cover" src={product.image2} alt={product.name} />
@@ -148,9 +153,11 @@ const Home = () => {
             </div>
           </div>
         ))}
+        </div>
+        </div>
       </div>
       </div>
-      <div className="flex justify-center my-4">
+      <div className="flex justify-center my-4 shrink">
         {currentPage > 1 && (
           <button onClick={() => paginate(currentPage - 1)} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 mr-2 rounded">
             Prev
@@ -214,7 +221,7 @@ const Home = () => {
 
 const SideNavigation = () => {
   return (
-    <div className="md:w-64 bg-gray-800 text-white mt-2 hidden md:block ">
+    <div className=" bg-white text-black mt-2  hidden md:block shrink border-4">
       <div className="p-4">
         <h2 className="text-lg font-bold">Categories</h2>
         <ul className="mt-4">
