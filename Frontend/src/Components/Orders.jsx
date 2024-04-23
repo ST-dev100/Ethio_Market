@@ -1,6 +1,30 @@
 import React from 'react'
 
 const order = { id: 1, items: [ { id: 1, name: 'Item 1', price: 10 }, { id: 2, name: 'Item 2', price: 15 }, { id: 3, name: 'Item 3', price: 20 }, ], total: 45, };
+const products = [
+  {
+    id: 1,
+    name: 'Product 1',
+    amount: '100 units',
+    price: '$10',
+    image: 'product1.jpg'
+  },
+  {
+    id: 2,
+    name: 'Product 2',
+    amount: '50 units',
+    price: '$20',
+    image: 'product2.jpg'
+  },
+  {
+    id: 3,
+    name: 'Product 3',
+    amount: '200 units',
+    price: '$5',
+    image: 'product3.jpg'
+  }
+];
+
 const Orders = ()=>{
     return (
         <div className="max-w-screen-lg mx-auto flex flex-col md:flex-row justify-between">
@@ -37,9 +61,25 @@ const Orders = ()=>{
               <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Send Payment</button>
             </div>
     </form>
-          
+         <ProductList/> 
         </div>
       );
 }
+
+const ProductList = () => {
+  return (
+    <div className="grid grid-cols-1  gap-4">
+      {products.map(product => (
+        <div key={product.id} className="border p-4">
+          <img src={product.image} alt={product.name} className="mb-4" />
+          <p className="font-bold">{product.name}</p>
+          <p>{product.amount}</p>
+          <p>{product.price}</p>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Place Order</button>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default Orders;

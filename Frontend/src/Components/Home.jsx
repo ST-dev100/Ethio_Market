@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGettUsersQuery } from '../store/Features/api/apiSlice';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
-import { Notifications } from '@mui/icons-material';
+import { Notifications, Close } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -13,6 +13,7 @@ import {
   Twitter,
   LinkedIn
 } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const { data, error, isLoading } = useGettUsersQuery();
@@ -24,6 +25,13 @@ const Home = () => {
   const [showSideNav, setShowSideNav] = useState(true);
   const [filters, setFilters] = useState([]);
   const [ratings, setRatings] = useState({});
+  const [showOrderDetails, setShowOrderDetails] = useState(false);
+ 
+
+  const handleNotificationClick = (order) => {
+    setShowOrderDetails(true);
+    
+  };
   const addToCart = (productId) => {
     setCartItems([...cartItems, productId]);
     setNotificationCount(notificationCount + 1);
@@ -43,7 +51,7 @@ const Home = () => {
     setFilters([...filters, filter]);
   };
 
-
+  const handleCloseOrderDetails = () => { setShowOrderDetails(false); };
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -102,9 +110,11 @@ const Home = () => {
           <MenuIcon style={{ color: 'white', fontSize: '2.5rem' }} />
         </span>
         <div className="md:flex items-center hidden ">
-          <Badge badgeContent={notificationCount} color="error">
-            <Notifications style={{ color: 'white' }} />
-          </Badge>
+        <Badge className='cursor-pointer' badgeContent={notificationCount} color="error">
+          <Notifications style={{ color: 'white' }} onClick={() => handleNotificationClick()} />
+        </Badge>
+        {showOrderDetails &&  <OrderDetails handleClose = {handleCloseOrderDetails} />}
+          
           <div className="ml-4">
             <p style={{ color: 'white' }}>Login</p>
           </div>
@@ -126,13 +136,13 @@ const Home = () => {
           </div>
          <div className='flex flex-col md:flex-row'>  
         {currentProducts.map((product) => (
-          <div key={product.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4 shrink grow">
+          <div key={product.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4 shrink grow border-4 flex flex-col items-center">
             <div className="w-44 h-48 flex flex-no-wrap overflow-x-auto">
               <img className="w-44 h-44 object-cover" src={product.image1} alt={product.name} />
               <img className="w-44 h-44 object-cover" src={product.image2} alt={product.name} />
               <img className="w-44 h-44 object-cover" src={product.image3} alt={product.name} />
             </div>
-            <div className="px-6 py-4">
+            <div className="px-6 py-4  ">
               <div className="font-bold text-xl mb-2">{product.name}</div>
               <p className="text-gray-700 text-base mb-2">{product.model}</p>
               <p className="text-gray-700 text-base mb-2">{product.price}</p>
@@ -233,6 +243,34 @@ const SideNavigation = () => {
     </div>
   );
 };
+
+const OrderDetails = ({handleClose}) => {
+  return (
+    <div className="fixed top-24 opacity-75 grid grid-cols-5  right-0 bg-white p-4 border border-gray-300 z-50 w-screen h-full">
+      <div className='col-span-3 '>
+        
+      </div>
+      <div className='bg-black text-white  col-span-2 animate-[bounce_1s_ease-in-out_1_forwards]'>
+        <Close onClick={handleClose} style={{ color: 'white', cursor: 'pointer', position: 'absolute', top: '1rem', right: '1rem' }} />
+          <div className="flex items-center ml-6 mt-2">
+            <img src="iphone.jpg" alt="Product" className="w-24 h-24" />
+          <div className="ml-4">
+            <p>Product Name: Nokia</p>
+            <p>Product Price: 456$</p>
+            <div className="mt-2">
+              <label>Amount: </label>
+              <input type="number" className="w-16 h-10 text-black" value="1" />
+            </div>
+          </div>
+        </div>
+       <div className="mt-4">
+          <p>Total Price: 5123$</p>
+      </div>
+      </div>
+    </div>
+  );
+};
+
 
 
 
