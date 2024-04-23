@@ -26,10 +26,11 @@ const Home = () => {
   const [filters, setFilters] = useState([]);
   const [ratings, setRatings] = useState({});
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [showCatacgories,setCatagories] = useState(true)
  
 
   const handleNotificationClick = (order) => {
-    setShowOrderDetails(true);
+    setShowOrderDetails(!showOrderDetails);
     
   };
   const addToCart = (productId) => {
@@ -101,19 +102,17 @@ const Home = () => {
   return (
     <div>
        
-      <div className="flex justify-between items-center bg-gray-800 p-4">
+      <div className="flex   justify-between md:items-center sticky top-0 bg-gray-800 p-4">
         <div>
           <img src="/rift.png" alt="Company Logo" className="h-8 w-8 mr-2" />
           <span className="text-white">Real Mobile Shopping</span>
         </div>
-        <span className="md:hidden">
-          <MenuIcon style={{ color: 'white', fontSize: '2.5rem' }} />
-        </span>
-        <div className="md:flex items-center hidden ">
+        
+        <div className="flex flex-row   items-center ">
         <Badge className='cursor-pointer' badgeContent={notificationCount} color="error">
           <Notifications style={{ color: 'white' }} onClick={() => handleNotificationClick()} />
         </Badge>
-        {showOrderDetails &&  <OrderDetails handleClose = {handleCloseOrderDetails} />}
+        {/* {showOrderDetails &&  <OrderDetails handleClose = {handleCloseOrderDetails} />} */}
           
           <div className="ml-4">
             <p style={{ color: 'white' }}>Login</p>
@@ -127,11 +126,29 @@ const Home = () => {
         </div>
       </div>
     <div className='grid grid-cols-5'>
-     
+      <div className={showCatacgories ? '' : 'hidden'}>
+           <div className=" bg-white text-black h-screen md:w-1/3 w-1/2 absolute top-0 shrink border-4">
+            <div className="p-4 relative">
+              <span className='absolute top-0 right-0'>
+                <Close className='cursor-pointer' onClick={()=>setCatagories(!showCatacgories)}/>
+              </span>
+              <h2 className="text-lg font-bold">Categories</h2>
+            
+              <ul className="mt-4">
+                <li className="py-2">Category 1</li>
+                <li className="py-2">Category 2</li>
+                <li className="py-2">Category 3</li>
+              </ul>
+            </div>
+          </div>
+      </div>
       <div className="flex  justify-left mt-4 col-span-5">
         <SideNavigation />
+        <span className="md:hidden">
+          <MenuIcon className="cursor-pointer" style={{ color: 'black', fontSize: '2.5rem' }} onClick={()=>setCatagories(!showCatacgories)}/>
+        </span>
         <div className='grow'>
-          <div className='ml-32'>
+          <div className='md:ml-32 ml-10'>
             <input className='border-2' type="text" name="" placeholder='Search Products...' id="" />
           </div>
          <div className='flex flex-col md:flex-row'>  
@@ -164,6 +181,31 @@ const Home = () => {
           </div>
         ))}
         </div>
+        </div>
+        <div>
+        <div className={showOrderDetails ? 'bg-white text-black h-screen md:w-4/12 5/12 absolute top-0 right-0 shrink border-4 transition-all duration-500 ease-in-out opacity-100':'hidden opacity-0'}>
+            <div className="p-4 relative">
+              <span className='absolute top-0 right-0'>
+                <Close className='cursor-pointer' onClick={()=>setShowOrderDetails(!showOrderDetails)}/>
+              </span>
+              <h2 className="text-lg font-bold">Carts</h2>
+            
+              <div className="flex items-center ml-6 mt-2">
+                <img src="iphone.jpg" alt="Product" className="md:w-24 md:h-24 h-12 w-12" />
+                <div className="ml-4">
+                  <p>Product Name: Nokia</p>
+                  <p>Product Price: 456$</p>
+                  <div className="mt-2">
+                    <label>Amount: </label>
+                    <input type="number" className="w-16 h-10 text-black" value="1" />
+                  </div>
+                </div>
+            </div>
+              <div className="mt-4">
+                  <p>Total Price: 5123$</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       </div>
@@ -246,14 +288,11 @@ const SideNavigation = () => {
 
 const OrderDetails = ({handleClose}) => {
   return (
-    <div className="fixed top-24 opacity-75 grid grid-cols-5  right-0 bg-white p-4 border border-gray-300 z-50 w-screen h-full">
-      <div className='col-span-3 '>
-        
-      </div>
-      <div className='bg-black text-white  col-span-2 animate-[bounce_1s_ease-in-out_1_forwards]'>
-        <Close onClick={handleClose} style={{ color: 'white', cursor: 'pointer', position: 'absolute', top: '1rem', right: '1rem' }} />
+    <div className="fixed top-0 opacity-75 grid grid-cols-5  right-0 bg-white  w-screen h-96">
+      <div className='relative bg-black text-white mt-20 text-xs md:text-lg col-start-3 col-end-6 md:animate-[bounce_1s_ease-in-out_1_forwards]'>
+        <Close className="border border-4 bg-black ml-auto" onClick={handleClose} style={{ color: 'red', cursor: 'pointer' }} />
           <div className="flex items-center ml-6 mt-2">
-            <img src="iphone.jpg" alt="Product" className="w-24 h-24" />
+            <img src="iphone.jpg" alt="Product" className="md:w-24 md:h-24 h-12 w-12" />
           <div className="ml-4">
             <p>Product Name: Nokia</p>
             <p>Product Price: 456$</p>
