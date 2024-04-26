@@ -16,8 +16,12 @@ import {
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import DarkModeIconl from '@mui/icons-material/DarkMode';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
+  const {t} = useTranslation();
+  const { i18n } = useTranslation();
+  const {home,login,signup,cart,removeCart} = t('navigationMenu');
   const { data, error, isLoading } = useGettUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(4);
@@ -31,6 +35,9 @@ const Home = () => {
   const [showCatacgories,setCatagories] = useState(false)
   const [searchValue, setSearchValue] = useState("");
   const [darkMode,setDarkMode] = useState(false);
+
+  const changeLanguage = (lng) => { i18n.changeLanguage(lng); };
+
   const handleNotificationClick = (order) => {
     setShowOrderDetails(!showOrderDetails);
     setCatagories(false);
@@ -116,10 +123,21 @@ const Home = () => {
       <div className="flex dark:bg-gray-800 dark:border-b-2 md:text-lg text-xs justify-between md:items-center sticky top-0 bg-neutral-300 p-4">
         <div>
           <img src="/rift.png" alt="Company Logo" className="h-8 w-8 mr-2" />
-          <span className="dark:text-white ">Real Mobile Shopping</span>
+          <span className="dark:text-white ">{t('welcome')}</span>
         </div>
         
         <div className="flex flex-row   items-center gap-2">
+        <div className='bg-black'>
+          <select className='cursor-pointer dark:bg-gray-800 dark:text-white' onChange={(e) => 
+            changeLanguage(e.target.value)}>
+              <option value="en" className='cursor-pointer'>
+                English
+              </option>
+              <option value="amh" className='cursor-pointer'>
+                አማርኛ
+              </option>
+            </select> 
+          </div>
           <p className='ml-2'>
            <DarkModeIconl className='dark:text-yellow-400 cursor-pointer' onClick={()=>setDarkMode(!darkMode)}/>
           </p>
@@ -129,10 +147,10 @@ const Home = () => {
         {/* {showOrderDetails &&  <OrderDetails handleClose = {handleCloseOrderDetails} />} */}
           
           <div className="ml-4">
-            <p className='dark:text-white'>Login</p>
+            <p className='dark:text-white'>{login}</p>
           </div>
           <div className="ml-4">
-            <p className='dark:text-white'>Signup</p>
+            <p className='dark:text-white'>{signup}</p>
           </div>
           <div className="ml-4">
             <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
@@ -183,12 +201,12 @@ const Home = () => {
                 ))}
             </div>
               {cartItems.includes(product.id) ? (
-                <button onClick={() => removeFromCart(product.id)} className="bg-red-500 dark:bg-white dark:text-black dark:hover:bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                  Remove from Cart
+                <button onClick={() => removeFromCart(product.id)} className="bg-red-500 dark:bg-red dark:text-black dark:hover:bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                  {removeCart}
                 </button>
               ) : (
                 <button onClick={() => addToCart(product.id)} className="bg-blue-500  dark:bg-white dark:text-black dark:hover:bg-blue-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  Add to Cart
+                  {cart}
                 </button>
               )}
             </div>
