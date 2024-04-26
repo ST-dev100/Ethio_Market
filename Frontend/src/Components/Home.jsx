@@ -133,7 +133,7 @@ const Home = () => {
               <option value="en" className='cursor-pointer'>
                 English
               </option>
-              <option value="amh" className='cursor-pointer'>
+              <option value="amh" className='cursor-pointer' selected>
                 አማርኛ
               </option>
             </select> 
