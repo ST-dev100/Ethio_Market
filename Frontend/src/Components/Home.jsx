@@ -17,11 +17,17 @@ import {
 import { Link } from 'react-router-dom';
 import DarkModeIconl from '@mui/icons-material/DarkMode';
 import { useTranslation } from 'react-i18next';
+import { useSelector,useDispatch} from 'react-redux';
+import {addProducts,removeCart2,addCart,addNumberOfItem,dicreaseNumberOfItem} from '../store/Features/api/productSlice'
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const productsss = useSelector(state=>state.cart.products)
+  const items = useSelector(state=>state.cart.items)
   const {t} = useTranslation();
   const { i18n } = useTranslation();
   const {home,login,signup,cart,removeCart} = t('navigationMenu');
+  const {customerService,contact,shipping,returning,FAQ,Links,About,Privacy,Terms,Site,Newsettler,Subscribe,Subscribe2,Enter,Next,Prev} = t('Footer');
   const { data, error, isLoading } = useGettUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(4);
@@ -35,8 +41,13 @@ const Home = () => {
   const [showCatacgories,setCatagories] = useState(false)
   const [searchValue, setSearchValue] = useState("");
   const [darkMode,setDarkMode] = useState(false);
-
-  const changeLanguage = (lng) => { i18n.changeLanguage(lng); };
+  const [language,setLang] = useState('amh');
+  
+  const changeLanguage = (lng) => 
+  { 
+    setLang(language)
+    i18n.changeLanguage(lng); 
+  };
 
   const handleNotificationClick = (order) => {
     setShowOrderDetails(!showOrderDetails);
@@ -49,11 +60,13 @@ const Home = () => {
   const addToCart = (productId) => {
     setCartItems([...cartItems, productId]);
     setNotificationCount(notificationCount + 1);
+    dispatch(addCart(productId))
   };
   
   const removeFromCart = (productId) => {
     setCartItems(cartItems.filter(item => item !== productId));
     setNotificationCount(notificationCount - 1);
+    dispatch(removeCart2(productId))
   };
   
 
@@ -68,7 +81,6 @@ const Home = () => {
   const handleCloseOrderDetails = () => { setShowOrderDetails(false); };
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
   
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -102,13 +114,15 @@ const Home = () => {
   
     setProducts(tempProducts);
     setRatings(tempRatings);
+    
   }, []);
-  const getFilteredProducts = () => 
-  { 
-    return currentProducts.filter(
-      (product) => product.name.toLowerCase().includes(searchValue.toLowerCase()) 
-      ); 
-   };
+  useEffect(()=>{
+    console.log("second useEffect")
+    dispatch(addProducts(data))
+    console.log("Productss",productsss)
+    console.log("items",items)
+  },[data, items,dispatch])
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -116,7 +130,8 @@ const Home = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
+  const currentProducts = data.slice(indexOfFirstProduct, indexOfLastProduct);
+  
   return (
     <div className={darkMode ? 'dark' : ''}>
       <div className='dark:bg-gray-800'>  
@@ -128,12 +143,14 @@ const Home = () => {
         
         <div className="flex flex-row   items-center gap-2">
         <div className='bg-black'>
-          <select className='cursor-pointer dark:bg-gray-800 dark:text-white' onChange={(e) => 
+          <select className='cursor-pointer dark:bg-gray-800 dark:text-white'
+            defaultValue={language}
+            onChange={(e) => 
             changeLanguage(e.target.value)}>
               <option value="en" className='cursor-pointer'>
                 English
               </option>
-              <option value="amh" className='cursor-pointer' selected>
+              <option value="amh" className='cursor-pointer' >
                 አማርኛ
               </option>
             </select> 
@@ -184,20 +201,23 @@ const Home = () => {
             <input className='border-2' type="text" name="" placeholder='Search Products...' id="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           </div>
          <div className='flex flex-col md:flex-row'>  
-        {getFilteredProducts() .map((product) => (
+        {currentProducts .map((product) => (
           <div key={product.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4 shrink grow  flex flex-col items-center dark:bg-gray-800 dark:text-white">
             <div className="w-44 h-48 flex flex-no-wrap overflow-x-auto">
-              <img className="w-44 h-44 object-cover" src={product.image1} alt={product.name} />
-              <img className="w-44 h-44 object-cover" src={product.image2} alt={product.name} />
-              <img className="w-44 h-44 object-cover" src={product.image3} alt={product.name} />
+              <img className="w-44 h-44 object-cover" src={product.image} alt={product.title} />
+              <img className="w-44 h-44 object-cover" src={product.image} alt={product.title} />
+              <img className="w-44 h-44 object-cover" src={product.image} alt={product.title} />
             </div>
             <div className="px-6 py-4  ">
               <div className="font-bold md:text-xl text-sm mb-2">{product.name}</div>
               <p className="text-gray-700 dark:text-white md:text-lg text-sm text-base mb-2">{product.model}</p>
-              <p className="text-gray-700 dark:text-white text-base mb-2 md:text-lg text-sm">{product.price}</p>
+              <p className="text-gray-700 dark:text-white text-base mb-2 md:text-lg text-sm">Price ${product.price}</p>
               <div className="flex items-center mb-2 md:text-lg text-sm">
-                {Array.from({ length: Math.round(ratings[product.id]) }, (_, index) => (
-                    <StarIcon key={index} style={{ color: 'gold' }} />
+              {Array.from({ length: 5 }, (_, index) => (
+                <StarIcon 
+                    key={index} 
+                    style={{ color: index < Math.round(product.rating.rate) ? 'gold' : 'gray' }} 
+                />
                 ))}
             </div>
               {cartItems.includes(product.id) ? (
@@ -215,27 +235,41 @@ const Home = () => {
         </div>
         </div>
         <div>
-        <div className={showOrderDetails ? 'bg-white text-black dark:bg-gray-800 dark:text-white h-screen md:w-4/12 5/12 absolute top-0 right-0 shrink border-4 transition-all duration-500 ease-in-out opacity-100':'hidden opacity-0'}>
-            <div className="p-4 relative">
+        <div className={
+         showOrderDetails ? 
+        'bg-white text-black dark:bg-gray-800 dark:text-white h-screen md:w-6/12 5/12 absolute top-0 right-0 shrink border-4 transition-all duration-500 ease-in-out opacity-100':'hidden opacity-0 '
+          } style={{ overflowY: 'scroll'}}>
+            <div className="p-4 relative overflow-y-scroll">
               <span className='absolute top-0 right-0'>
                 <Close className='cursor-pointer' onClick={()=>setShowOrderDetails(!showOrderDetails)}/>
               </span>
-              <h2 className="text-sm md:text-lg font-bold">Carts</h2>
+              <h2 className="text-sm md:text-lg font-bold">{t("Cart")}</h2>
             
-              <div className="flex items-start justify-between ml-6 mt-2 text-sm md:text-lg">
-                <img src="iphone.jpg" alt="Product" className="md:w-24 md:h-24 h-12 w-12" />
+             {items.map((item)=>
+                (
+                
+                <div key={item.id} className="flex items-start justify-between ml-6 mt-2 text-sm md:text-lg ">
+                <img src={item.image} alt="Product" className="md:w-24 md:h-24 h-12 w-12" />
                 <div className="ml-2 border border-2">
-                  <p> Nokia 36s</p>
-                  
+                  <p>{item.title}</p>
+                 
                   <div className="mt-2">
-                    <label>Amount: </label>
-                    <input type="number" className="w-16 h-10 text-black border border-4 border-black" value="1" />
+                    <label>Total Amount in the store: {item.rating.count}</label>
                   </div>
                 </div>
-                <p>456$</p>
-                <DeleteIcon/>
+                <div>
+                  <p>${item.price * item.count}</p>
+                  <div className="flex items-center justify-center">
+                    <input className="border-2 border-gray-300 rounded-md  w-8" type="number" value={item.count} min={0} disabled/>
+                    <button className=" dark:text-white font-bold md:text-2xl dark:text-green-600 w-8 rounded text-green-600" onClick={()=>dispatch(addNumberOfItem(item.id))}>↑</button>
+                    <button className=" dark:text-white font-bold md:text-2xl dark:text-red-600 text-red-600 w-8rounded" onClick={()=>dispatch(dicreaseNumberOfItem(item.id))}>↓</button>
+                  </div>
+                </div> 
+                <DeleteIcon className='cursor-pointer'/>
             </div>
-              <div className="mt-4 text-sm md:text-lg">
+                )
+             )}
+               <div className="mt-4 text-sm md:text-lg">
                   <p>Total Price: 5123$</p>
               </div>
             </div>
@@ -246,12 +280,12 @@ const Home = () => {
       <div className="flex justify-center my-4 shrink">
         {currentPage > 1 && (
           <button onClick={() => paginate(currentPage - 1)} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 mr-2 rounded">
-            Prev
+            {Prev}
           </button>
         )}
         {currentProducts.length === productsPerPage && (
           <button onClick={() => paginate(currentPage + 1)} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 ml-2 rounded">
-            Next
+            {Next}
           </button>
         )}
       </div>
@@ -259,32 +293,32 @@ const Home = () => {
       <div className="bg-neutral-300 dark:bg-gray-800 dark:border-t-2 p-4 ">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center  gap-4">
           <div >
-            <h2 className='dark:text-white'>CUSTOMER SERVICE</h2>
+            <h2 className='dark:text-white'>{customerService}</h2>
             <ul className='dark:text-white'>
-              <li>Contact Us: +251946854382</li>
-              <li>Shipping</li>
-              <li>Returns</li>
-              <li>FAQs</li>
+              <li>{contact}: +251946854382</li>
+              <li>{shipping}</li>
+              <li>{returning}</li>
+              <li>{FAQ}</li>
             </ul>
           </div>
           <div>
-            <h2 className='dark:text-white'>LINKS</h2>
+            <h2 className='dark:text-white'>{Links}</h2>
             <ul className='dark:text-white'>
-              <li>About Us</li>
-              <li>Privacy Policy</li>
-              <li>Terms & Conditions</li>
-              <li>Site Map</li>
+              <li>{About}</li>
+              <li>{Privacy}</li>
+              <li>{Terms}</li>
+              <li>{Site}</li>
             </ul>
           </div>
           <div >
-            <h2 className='dark:text-white'>NEWSLETTER</h2>
-            <p className='dark:text-white'>Subscribe to our newsletter for the latest updates</p>
-            <input type="text" placeholder="Enter your email" className="bg-gray-700 dark:text-white p-2 rounded mt-2" />
-            <button className="bg-blue-500 hover:bg-blue-700 dark:text-white font-bold py-2 px-4 rounded mt-2">Subscribe</button>
+            <h2 className='dark:text-white'>{Newsettler}</h2>
+            <p className='dark:text-white'>{Subscribe2}</p>
+            <input type="text" placeholder={Enter} className="bg-gray-700 dark:text-white p-2 rounded mt-2" />
+            <button className="bg-blue-500 hover:bg-blue-700 dark:text-white font-bold py-2 px-4 rounded mt-2">{Subscribe}</button>
           </div>
         </div>
         <div className="md:flex  justify-between items-center mt-4">
-          <p className="dark:text-white">&copy; 2022 Real Mobile Shopping</p>
+          <p className="dark:text-white">&copy; 2022 {t('welcome')}</p>
           <div className="flex items-center">
             <Instagram className='dark:text-white' style={{marginRight: '10px' }} />
             <Facebook className='dark:text-white' style={{marginRight: '10px' }} />
@@ -332,7 +366,7 @@ const OrderDetails = ({handleClose}) => {
             <p>Product Price: 456$</p>
             <div className="mt-2">
               <label>Amount: </label>
-              <input type="number" className="w-16 h-10 text-black" value="1" />
+              {/* <input type="number" className="w-16 h-10 text-black"  /> */}
             </div>
           </div>
         </div>

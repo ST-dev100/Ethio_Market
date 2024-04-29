@@ -8,24 +8,62 @@ const resources = {
   en: {
     translation: {
       welcome: "Real Mobile Shopping",
+      Cart:"Cart",
       navigationMenu:{
         home:'Home',
         login:'Login',
         signup:'Signup',
         cart:'Add to Cart',
         removeCart:'Remove from the Cart'
+      },
+      Footer:{
+        customerService:"Customer Service",
+        contact:"Contact",
+        shipping:"Shipping",
+        returning:"Returns",
+        FAQ:"FAQ",
+        Links:"Links",
+        About:"About us",
+        Privacy:"Privacy",
+        Terms:"Terms and Policy",
+        Site:"Site",
+        Newsettler:"Newsettler",
+        Subscribe:"Subscribe",
+        Subscribe2:"Subscribe to our newsletter for the latest updates",
+        Enter:"Enter your email",
+        Next:"Next",
+        Prev:"Prev"
       }
     }
   },
   amh: {
     translation: {
       welcome: "ሪል የሞባይል መሸጫ ሱቅ",
+      Cart:"ጋሪ",
       navigationMenu:{
         home:'Home',
         login:'ግባ',
         signup:'ተመዝገብ',
         cart:'ወደ ግዢው ቅርጫት ጨምር',
         removeCart:'ከግዢው ቅርጫት ያስወጡ'
+      },
+      Footer:{
+        customerService:"የደንበኞች ግልጋሎት",
+        contact:"አድራሻ",
+        shipping:"ማጓጓዣ",
+        returning:"መመለስ",
+        FAQ:"ተደጋግሞ የሚነሱ ጥያቄዎች",
+        Links:"አገናኞች",
+        About:"ስለ እኛ",
+        Privacy:"ግላዊነት",
+        Terms:"ውሎች እና ፖሊሲ",
+        Site:"ጣቢያ",
+        Newsettler:"ጋዜጣ",
+        Subscribe:"ሰብስክራይብ",
+        Subscribe2:"ለአዳዲስ ዝመናዎች ለጋዜጣችን ይመዝገቡ",
+        Enter:"የእርስዎን ኢሜይል ያስገቡ",
+        Next:"ቀጣይ ገጽ",
+        Prev:"ቀዳሚ ገጽ"
       }
     }
   }
