@@ -9,6 +9,17 @@ const resources = {
     translation: {
       welcome: "Real Mobile Shopping",
       Cart:"Cart",
+      Price:"Price",
+      Payment:"Send Payment",
+      Total:"Total Birr",
+      TotalA:"Total Amount in the store:",
+      Search:"Search Products",
+      Catagory:"Catagoryies",
+      Catagories:{
+        Phones:"Phones",
+        Computers:"Computers",
+        ElectronicDevices:"ElectronicDevices"
+      },
       navigationMenu:{
         home:'Home',
         login:'Login',
@@ -40,6 +51,17 @@ const resources = {
     translation: {
       welcome: "ሪል የሞባይል መሸጫ ሱቅ",
       Cart:"ጋሪ",
+      Price:"ዋጋ",
+      Payment:"ክፍያ ላክ",
+      Total:"ጠቅላላ ብር",
+      TotalA:"በመደብሩ ውስጥ ያለው ጠቅላላ መጠን",
+      Search:"ምርቶችን ይፈልጉ",
+      Catagory:"ምድቦች",
+      Catagories:{
+        Phones:"ስልኮች",
+        Computers:"ኮምፒውተሮች",
+        ElectronicDevices:"የኤሌክትሮኒክስ መሳሪያዎች"
+      },
       navigationMenu:{
         home:'Home',
         login:'ግባ',

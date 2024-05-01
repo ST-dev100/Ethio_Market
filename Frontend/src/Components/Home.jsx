@@ -28,6 +28,7 @@ const Home = () => {
   const {t} = useTranslation();
   const { i18n } = useTranslation();
   const {home,login,signup,cart,removeCart} = t('navigationMenu');
+  const {Phones,Computers,ElectronicDevices} = t('Catagories');
   const {customerService,contact,shipping,returning,FAQ,Links,About,Privacy,Terms,Site,Newsettler,Subscribe,Subscribe2,Enter,Next,Prev} = t('Footer');
   const { data, error, isLoading } = useGettUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
@@ -182,12 +183,12 @@ const Home = () => {
               <span className='absolute top-0 right-0'>
                 <Close className='cursor-pointer' onClick={()=>setCatagories(!showCatacgories)}/>
               </span>
-              <h2 className="text-sm md:text-lg font-bold">Categories</h2>
+              <h2 className="text-sm md:text-lg font-bold">{t('Catagory')}</h2>
             
               <ul className="mt-4 text-sm md:text-lg">
-                <li className="py-2">Category 1</li>
-                <li className="py-2">Category 2</li>
-                <li className="py-2">Category 3</li>
+                <li className="py-2">{Phones}</li>
+                <li className="py-2">{Computers}</li>
+                <li className="py-2">{ElectronicDevices}</li>
               </ul>
             </div>
           </div>
@@ -199,7 +200,7 @@ const Home = () => {
         </span>
         <div className='grow'>
           <div className='md:ml-32 ml-10'>
-            <input className='border-2' type="text" name="" placeholder='Search Products...' id="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+            <input className='border-2' type="text" name="" placeholder={t('Search')} id="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           </div>
          <div className='flex flex-col md:flex-row'>  
         {currentProducts .map((product) => (
@@ -212,7 +213,7 @@ const Home = () => {
             <div className="px-6 py-4  ">
               <div className="font-bold md:text-xl text-sm mb-2">{product.name}</div>
               <p className="text-gray-700 dark:text-white md:text-lg text-sm text-base mb-2">{product.model}</p>
-              <p className="text-gray-700 dark:text-white text-base mb-2 md:text-lg text-sm">Price ${product.price}</p>
+              <p className="text-gray-700 dark:text-white text-base mb-2 md:text-lg text-sm">{t('Price')} ${product.price}</p>
               <div className="flex items-center mb-2 md:text-lg text-sm">
               {Array.from({ length: 5 }, (_, index) => (
                 <StarIcon 
@@ -255,7 +256,7 @@ const Home = () => {
                   <p>{item.title}</p>
                  
                   <div className="mt-2">
-                    <label>Total Amount in the store: {item.rating.count}</label>
+                    <label>{t('TotalA')} : {item.rating.count}</label>
                   </div>
                 </div>
                 <div>
@@ -271,7 +272,7 @@ const Home = () => {
                 )
              )}
                <div className="mt-4 text-sm md:text-lg">
-                  <p>Total Birr : {total}$</p>
+                  <p>{t('Total')} : {total}$</p>
                           <form method="POST" action="https://api.chapa.co/v1/hosted/pay" >
             <input type="hidden" name="public_key" value="CHAPUBK_TEST-pydPLApELW4IaBBnbSSIXt81wY2JNVkd" />
             <input type="hidden" name="tx_ref" value={`negade-tx-1e32334244ro44r9${Date.now()}`} />
@@ -287,7 +288,7 @@ const Home = () => {
             <input type="hidden" name="return_url" value="http://localhost:3000/users" />
             <input type="hidden" name="meta[title]" value="test" />
             <div className="mt-4 md:mt-0">
-              <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Send Payment</button>
+              <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">{t('Payment')}</button>
             </div>
     </form>
               </div>
@@ -359,14 +360,17 @@ const Home = () => {
 
 
 const SideNavigation = () => {
+  const {t} = useTranslation();
+  const {Phones,Computers,ElectronicDevices} = t('Catagories');
+
   return (
     <div className=" bg-white dark:bg-gray-800 dark:text-white text-black mt-2  hidden md:block shrink border-2 dark:border-0">
       <div className="p-4">
-        <h2 className="text-lg font-bold">Categories</h2>
+        <h2 className="text-lg font-bold">{t('Catagory')}</h2>
         <ul className="mt-4">
-          <li className="py-2">Category 1</li>
-          <li className="py-2">Category 2</li>
-          <li className="py-2">Category 3</li>
+          <li className="py-2">{Phones}</li>
+          <li className="py-2">{Computers}</li>
+          <li className="py-2">{ElectronicDevices}</li>
         </ul>
       </div>
     </div>
