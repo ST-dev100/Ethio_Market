@@ -24,6 +24,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const productsss = useSelector(state=>state.cart.products)
   const items = useSelector(state=>state.cart.items)
+  const total = useSelector(state=>state.cart.total)
   const {t} = useTranslation();
   const { i18n } = useTranslation();
   const {home,login,signup,cart,removeCart} = t('navigationMenu');
@@ -261,16 +262,34 @@ const Home = () => {
                   <p>${item.price * item.count}</p>
                   <div className="flex items-center justify-center">
                     <input className="border-2 border-gray-300 rounded-md  w-8" type="number" value={item.count} min={0} disabled/>
-                    <button className=" dark:text-white font-bold md:text-2xl dark:text-green-600 w-8 rounded text-green-600" onClick={()=>dispatch(addNumberOfItem(item.id))}>↑</button>
-                    <button className=" dark:text-white font-bold md:text-2xl dark:text-red-600 text-red-600 w-8rounded" onClick={()=>dispatch(dicreaseNumberOfItem(item.id))}>↓</button>
+                    <button className=" font-bold md:text-2xl dark:text-green-600 text-green-600 w-8 rounded text-green-600" onClick={()=>dispatch(addNumberOfItem(item.id))}>↑</button>
+                    <button className=" font-bold md:text-2xl dark:text-red-600 text-red-600 text-red-600 w-8rounded" onClick={()=>dispatch(dicreaseNumberOfItem(item.id))}>↓</button>
                   </div>
                 </div> 
-                <DeleteIcon className='cursor-pointer'/>
+                <DeleteIcon className='cursor-pointer' onClick={()=>removeFromCart(item.id)}/>
             </div>
                 )
              )}
                <div className="mt-4 text-sm md:text-lg">
-                  <p>Total Price: 5123$</p>
+                  <p>Total Birr : {total}$</p>
+                          <form method="POST" action="https://api.chapa.co/v1/hosted/pay" >
+            <input type="hidden" name="public_key" value="CHAPUBK_TEST-pydPLApELW4IaBBnbSSIXt81wY2JNVkd" />
+            <input type="hidden" name="tx_ref" value={`negade-tx-1e32334244ro44r9${Date.now()}`} />
+            <input type="hidden" name="amount" value={total} />
+            <input type="hidden" name="currency" value="ETB" />
+            <input type="hidden" name="email" value="simalike245@gmail.com" />
+            <input type="hidden" name="first_name" value="Israel" />
+            <input type="hidden" name="last_name" value="Goytom" />
+            <input type="hidden" name="title" value="Let us do this" />
+            <input type="hidden" name="description" value="Paying with Confidence with cha" />
+            <input type="hidden" name="logo" value="https://chapa.link/asset/images/chapa_swirl.svg" />
+            <input type="hidden" name="callback_url" value="http://localhost:3000/callback" />
+            <input type="hidden" name="return_url" value="http://localhost:3000/users" />
+            <input type="hidden" name="meta[title]" value="test" />
+            <div className="mt-4 md:mt-0">
+              <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Send Payment</button>
+            </div>
+    </form>
               </div>
             </div>
           </div>

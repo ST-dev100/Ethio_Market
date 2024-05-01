@@ -4,7 +4,8 @@ const initialState = {
     cart: 0,
     diselect: false,
     products:[{id:9}],
-    items: []
+    items: [],
+    total:0
   };
 
   const productSlice = createSlice({
@@ -20,6 +21,7 @@ const initialState = {
             selected.count = 1
             state.items.push(selected);
             state.cart++
+            state.total = state.items.reduce((acc, obj) => acc + obj.price* obj.count, 0);
         },
         addNumberOfItem:(state,action)=>{
             const index = state.items.findIndex(item => item.id === action.payload);
@@ -27,6 +29,7 @@ const initialState = {
             // Update the value of 'b' for that item
             if (index !== -1) {
                 state.items[index].count++;
+                state.total = state.items.reduce((acc, obj) => acc + obj.price * obj.count, 0);
             }
         },
         dicreaseNumberOfItem:(state,action)=>{
@@ -35,11 +38,13 @@ const initialState = {
             // Update the value of 'b' for that item
             if (index !== -1 && state.items[index].count > 1) {
                 state.items[index].count--;
+                state.total = state.items.reduce((acc, obj) => acc + obj.price * obj.count, 0);
             }
         },
         removeCart2:(state,action)=>{
             state.items = state.items.filter(p=>p.id !== action.payload)
             state.cart--
+            state.total = state.items.reduce((acc, obj) => acc + obj.price, 0);
         }
     }
   })
