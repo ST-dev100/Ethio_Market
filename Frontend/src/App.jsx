@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Home from './Components/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Orders from './Components/Orders';
+import Users from './Components/Users';
+
 
 const products = [
   { name: 'Product 1', price: '$10.00' },
@@ -15,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/orders' element={<Orders/>}/>
+        <Route path='/users' element={<Users/>}/>
       </Routes>
     </BrowserRouter>
   );

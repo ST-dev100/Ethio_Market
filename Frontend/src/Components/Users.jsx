@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGettUsersQuery } from '../store/Features/api/apiSlice';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
-import { Notifications, Close, TextSnippetSharp } from '@mui/icons-material';
+import { Notifications, Close } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -19,8 +19,8 @@ import DarkModeIconl from '@mui/icons-material/DarkMode';
 import { useTranslation } from 'react-i18next';
 import { useSelector,useDispatch} from 'react-redux';
 import {addProducts,removeCart2,addCart,addNumberOfItem,dicreaseNumberOfItem} from '../store/Features/api/productSlice'
-import { motion,AnimatePresence } from 'framer-motion';
-const Home = () => {
+
+const Users = () => {
   const dispatch = useDispatch();
   const productsss = useSelector(state=>state.cart.products)
   const items = useSelector(state=>state.cart.items)
@@ -32,7 +32,7 @@ const Home = () => {
   const {customerService,contact,shipping,returning,FAQ,Links,About,Privacy,Terms,Site,Newsettler,Subscribe,Subscribe2,Enter,Next,Prev} = t('Footer');
   const { data, error, isLoading } = useGettUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(6);
+  const [productsPerPage] = useState(4);
   const [cartItems, setCartItems] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
   const [products, setProducts] = useState([]);
@@ -44,15 +44,7 @@ const Home = () => {
   const [searchValue, setSearchValue] = useState("");
   const [darkMode,setDarkMode] = useState(false);
   const [language,setLang] = useState('amh');
-  const [isVisible,setTest] = useState(true);
-  const [currentTheme, setCurrentTheme] = useState(0);
-
-  useEffect(() => { const interval = setInterval(() => { setCurrentTheme((currentTheme + 1) % themes.length); }, 5000);
-
- 
-return () => clearInterval(interval);
-}, [currentTheme]);
-
+  
   const changeLanguage = (lng) => 
   { 
     setLang(language)
@@ -95,8 +87,7 @@ return () => clearInterval(interval);
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const themes = [ { name: 'Gaming Theme', image: 'images.jpg', }, { name: 'Elegance Theme', image: 'co.png', },{ name: 'Elegance Theme', image: 'images (1).jpg', } ];
- 
+
   useEffect(() => {
     const tempProducts = [
       { id: 1, name: "Product 1", model: "Model A", price: "$100", image1: "iphone.jpg", image2: "iphone2.jpg", image3: "iphone3.png" },
@@ -145,11 +136,11 @@ return () => clearInterval(interval);
   
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className='dark:bg-gray-800 bg-neutral-300'>  
-      <div className="flex dark:bg-gray-800 bg-neutral-300 dark:border-b-2 md:text-lg text-xs justify-between md:items-center sticky top-0  p-4 z-10">
-        <div className='flex md:flex-row flex-col'>
+      <div className='dark:bg-gray-800'>  
+      <div className="flex dark:bg-gray-800 dark:border-b-2 md:text-lg text-xs justify-between md:items-center sticky top-0 bg-neutral-300 p-4">
+        <div>
           <img src="/rift.png" alt="Company Logo" className="h-8 w-8 mr-2" />
-          <span className="dark:text-white font-bold">{t('welcome')}</span>
+          <span className="dark:text-white ">{t('welcome')}</span>
         </div>
         
         <div className="flex flex-row   items-center gap-2">
@@ -185,24 +176,9 @@ return () => clearInterval(interval);
           </div>
         </div>
       </div>
-    
-      <div className="relative overflow-hidden h-96 z-0 cursor-pointer overflow-visible"> 
-        <img src={themes[currentTheme].image} alt={themes[currentTheme].name} className="object-cover w-full h-full" />
-         <div className="absolute top-0 left-0 w-full h-full bg-gray-900 opacity-50">
-          </div> <motion.div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-             <h1 className="text-lg md:text-5xl font-bold dark:text-white">Welcome to Mobile Phone Store</h1> 
-             <p className="text-sm md:text-xl mt-4 dark:text-white">Explore our latest collection of mobile phones
-             </p> 
-             <button className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-blue-700">
-              Shop Now
-              </button> 
-              </motion.div>
-               </div>
-               {/* <p onClick={()=>setTest(!isVisible)}>X</p>
-            <ExampleComponent isVisible={isVisible}/> */}
     <div className='grid grid-cols-5 '>
       <div className={showCatacgories ? '' : 'hidden'}>
-           <div className=" bg-neutral-300 dark:bg-gray-800 text-black dark:text-white h-screen md:w-1/3 w-1/2 absolute top-24 shrink border-4">
+           <div className=" bg-white dark:bg-gray-800 text-black dark:text-white h-screen md:w-1/3 w-1/2 absolute top-0 shrink border-4">
             <div className="p-4 relative">
               <span className='absolute top-0 right-0'>
                 <Close className='cursor-pointer' onClick={()=>setCatagories(!showCatacgories)}/>
@@ -217,40 +193,41 @@ return () => clearInterval(interval);
             </div>
           </div>
       </div>
-      <div className="flex  justify-left mt-4 col-span-5  ">
-        {/* <SideNavigation /> */}
-        {/* <span className="md:hidden">
+      <div className="flex  justify-left mt-4 col-span-5 ">
+        <SideNavigation />
+        <span className="md:hidden">
           <MenuIcon className="cursor-pointer dark:text-white" style={{fontSize: '2.5rem' }} onClick={()=>handleCatagories()}/>
-        </span> */}
-        <div className='grow flex flex-col'>
+        </span>
+        <div className='grow'>
           <div className='md:ml-32 ml-10'>
-            <input className='border-2 p-1 md:text-sm text-xs' type="text" name="" placeholder={t('Search')} id="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+            <input className='border-2' type="text" name="" placeholder={t('Search')} id="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           </div>
-          <SideNavigation />
-         <div className='flex flex-col md:flex-row flex-wrap  justify-center'>  
+         <div className='flex flex-col md:flex-row'>  
         {currentProducts .map((product) => (
-          <div key={product.id} className=" max-w-sm rounded overflow-hidden shadow-lg m-4 shrink grow  flex flex-col items-center dark:bg-neutral-300 bg-white p-2 dark:text-white">
-            <div className="w-44 h-48 flex flex-no-wrap overflow-x-auto dark:bg-neutral-300">
-              <img className="w-44 h-44 object-cover dark:bg-neutral-300" src={product.image} alt={product.title} />
+          <div key={product.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4 shrink grow  flex flex-col items-center dark:bg-gray-800 dark:text-white">
+            <div className="w-44 h-48 flex flex-no-wrap overflow-x-auto">
+              <img className="w-44 h-44 object-cover" src={product.image} alt={product.title} />
+              <img className="w-44 h-44 object-cover" src={product.image} alt={product.title} />
+              <img className="w-44 h-44 object-cover" src={product.image} alt={product.title} />
             </div>
             <div className="px-6 py-4  ">
-              <div className="font-bold md:text-xl text-sm mb-2 dark:text-black">{product.title}dd</div>
+              <div className="font-bold md:text-xl text-sm mb-2">{product.name}</div>
               <p className="text-gray-700 dark:text-white md:text-lg text-sm text-base mb-2">{product.model}</p>
-              <p className="text-gray-700 dark:text-white text-base mb-2 md:text-sm text-xs">{t('Price')} ${product.price}</p>
+              <p className="text-gray-700 dark:text-white text-base mb-2 md:text-lg text-sm">{t('Price')} ${product.price}</p>
               <div className="flex items-center mb-2 md:text-lg text-sm">
               {Array.from({ length: 5 }, (_, index) => (
                 <StarIcon 
-                    key={index} className="md:text-sm text-xs"
+                    key={index} 
                     style={{ color: index < Math.round(product.rating.rate) ? 'gold' : 'gray' }} 
                 />
                 ))}
             </div>
               {cartItems.includes(product.id) ? (
-                <button onClick={() => removeFromCart(product.id)} className="bg-red-500 dark:bg-red dark:text-black dark:hover:bg-gray-400 hover:bg-black text-white font-bold py-2 px-4 rounded">
+                <button onClick={() => removeFromCart(product.id)} className="bg-red-500 dark:bg-red dark:text-black dark:hover:bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                   {removeCart}
                 </button>
               ) : (
-                <button onClick={() => addToCart(product.id)} className="bg-black  dark:bg-gray-400 dark:text-black dark:hover:bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <button onClick={() => addToCart(product.id)} className="bg-blue-500  dark:bg-white dark:text-black dark:hover:bg-blue-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   {cart}
                 </button>
               )}
@@ -259,15 +236,11 @@ return () => clearInterval(interval);
         ))}
         </div>
         </div>
-        <AnimatePresence>
-        {showOrderDetails && (
-        <motion.div   
-        className= 'z-30 bg-neutral-300 overflow-y-scroll text-black dark:bg-gray-800 dark:text-white h-screen md:w-6/12 5/12 absolute top-0 right-0 shrink border-4 opacity-100'
-        initial={{ opacity: 0 ,x:900}}
-        animate={{ opacity: 1,x:20 }}
-        transition={{duration:2}}
-        exit={{ opacity: 0,x:1000 }}
-        >
+        <div>
+        <div className={
+         showOrderDetails ? 
+        'bg-white text-black dark:bg-gray-800 dark:text-white h-screen md:w-6/12 5/12 absolute top-0 right-0 shrink border-4 transition-all duration-500 ease-in-out opacity-100':'hidden opacity-0 '
+          } style={{ overflowY: 'scroll'}}>
             <div className="p-4 relative overflow-y-scroll">
               <span className='absolute top-0 right-0'>
                 <Close className='cursor-pointer' onClick={()=>setShowOrderDetails(!showOrderDetails)}/>
@@ -315,35 +288,32 @@ return () => clearInterval(interval);
             <input type="hidden" name="return_url" value="http://localhost:3000/users" />
             <input type="hidden" name="meta[title]" value="test" />
             <div className="mt-4 md:mt-0">
-            <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">{t('Payment')}</button>
-              {/* <motion.button initial={{fontSize:'2px'}} animate={{fontSize:'100px'}} transition={{ease: "easeOut",duration:6,yoyo:10}} type='submit' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">{t('Payment')}</motion.button> */}
+              <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">{t('Payment')}</button>
             </div>
     </form>
               </div>
             </div>
-          </motion.div>
-          )}
-          </AnimatePresence>
-        
+          </div>
+        </div>
       </div>
       </div>
       <div className="flex justify-center my-4 shrink">
         {currentPage > 1 && (
-          <button onClick={() => paginate(currentPage - 1)} className="bg-white dark:bg-gray-400 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-neutral-300 text-gray-800 font-bold py-2 px-4 mr-2 rounded">
+          <button onClick={() => paginate(currentPage - 1)} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 mr-2 rounded">
             {Prev}
           </button>
         )}
         {currentProducts.length === productsPerPage && (
-          <button onClick={() => paginate(currentPage + 1)} className="bg-white dark:bg-gray-400 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-neutral-300  text-gray-800 font-bold py-2 px-4 ml-2 rounded">
+          <button onClick={() => paginate(currentPage + 1)} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 ml-2 rounded">
             {Next}
           </button>
         )}
       </div>
   
-      <div className="bg-neutral-300 dark:bg-gray-800    border-white p-4 divide-y divide-dashed md:divide-solid">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center  gap-4 ">
-          <div className='border-4 p-2' >
-            <h2 className='dark:text-white font-bold'>{customerService}</h2>
+      <div className="bg-neutral-300 dark:bg-gray-800 dark:border-t-2 p-4 ">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center  gap-4">
+          <div >
+            <h2 className='dark:text-white'>{customerService}</h2>
             <ul className='dark:text-white'>
               <li>{contact}: +251946854382</li>
               <li>{shipping}</li>
@@ -351,8 +321,8 @@ return () => clearInterval(interval);
               <li>{FAQ}</li>
             </ul>
           </div>
-          <div className='border-4 p-2'>
-            <h2 className='dark:text-white font-bold'>{Links}</h2>
+          <div>
+            <h2 className='dark:text-white'>{Links}</h2>
             <ul className='dark:text-white'>
               <li>{About}</li>
               <li>{Privacy}</li>
@@ -360,15 +330,15 @@ return () => clearInterval(interval);
               <li>{Site}</li>
             </ul>
           </div>
-          <div className='border-4 p-2'>
-            <h2 className='dark:text-white font-bold'>{Newsettler}</h2>
-            <p className='dark:text-white '>{Subscribe2}</p>
+          <div >
+            <h2 className='dark:text-white'>{Newsettler}</h2>
+            <p className='dark:text-white'>{Subscribe2}</p>
             <input type="text" placeholder={Enter} className="bg-gray-700 dark:text-white p-2 rounded mt-2" />
             <button className="bg-blue-500 hover:bg-blue-700 dark:text-white font-bold py-2 px-4 rounded mt-2">{Subscribe}</button>
           </div>
         </div>
         <div className="md:flex  justify-between items-center mt-4">
-          <p className="dark:text-white font-bold">&copy; 2022 {t('welcome')}</p>
+          <p className="dark:text-white">&copy; 2022 {t('welcome')}</p>
           <div className="flex items-center">
             <Instagram className='dark:text-white' style={{marginRight: '10px' }} />
             <Facebook className='dark:text-white' style={{marginRight: '10px' }} />
@@ -394,12 +364,12 @@ const SideNavigation = () => {
   const {Phones,Computers,ElectronicDevices} = t('Catagories');
 
   return (
-    <div className=" bg-neutral-300 dark:bg-gray-800 dark:text-white text-black mt-2   shrink  dark:border-0">
+    <div className=" bg-white dark:bg-gray-800 dark:text-white text-black mt-2  hidden md:block shrink border-2 dark:border-0">
       <div className="p-4">
-        <h2 className="md:text-lg text-sm font-bold text-center">{t('Catagory')}</h2>
-        <ul className="mt-4 md:text-sm text-xs flex justify-center gap-2">
-          <li className="py-2">{Phones} /</li>
-          <li className="py-2">{Computers} /</li>
+        <h2 className="text-lg font-bold">{t('Catagory')}</h2>
+        <ul className="mt-4">
+          <li className="py-2">{Phones}</li>
+          <li className="py-2">{Computers}</li>
           <li className="py-2">{ElectronicDevices}</li>
         </ul>
       </div>
@@ -432,19 +402,6 @@ const OrderDetails = ({handleClose}) => {
 };
 
 
-const ExampleComponent = ({ isVisible }) => {
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          transition={{duration:6}}
-          exit={{ y: 1000,x:1000 }}
-        >
-          <h1>Hello World!</h1>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
 
-export default Home;
+
+export default Users;

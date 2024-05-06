@@ -14,7 +14,7 @@ const resources = {
       Total:"Total Birr",
       TotalA:"Total Amount in the store:",
       Search:"Search Products",
-      Catagory:"Catagoryies",
+      Catagory:"Catagories",
       Catagories:{
         Phones:"Phones",
         Computers:"Computers",
