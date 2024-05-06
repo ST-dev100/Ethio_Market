@@ -20,6 +20,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector,useDispatch} from 'react-redux';
 import {addProducts,removeCart2,addCart,addNumberOfItem,dicreaseNumberOfItem} from '../store/Features/api/productSlice'
 import { motion,AnimatePresence } from 'framer-motion';
+import { useSpring, animated } from 'react-spring';
+import { useInView } from 'react-intersection-observer';
 const Home = () => {
   const dispatch = useDispatch();
   const productsss = useSelector(state=>state.cart.products)
@@ -32,7 +34,7 @@ const Home = () => {
   const {customerService,contact,shipping,returning,FAQ,Links,About,Privacy,Terms,Site,Newsettler,Subscribe,Subscribe2,Enter,Next,Prev} = t('Footer');
   const { data, error, isLoading } = useGettUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(6);
+  const [productsPerPage] = useState(8);
   const [cartItems, setCartItems] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
   const [products, setProducts] = useState([]);
@@ -46,7 +48,15 @@ const Home = () => {
   const [language,setLang] = useState('amh');
   const [isVisible,setTest] = useState(true);
   const [currentTheme, setCurrentTheme] = useState(0);
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.5
+  });
 
+  const animation = useSpring({
+    opacity: inView ? 1 : 0,
+    from: { opacity: 0 },
+  });
   useEffect(() => { const interval = setInterval(() => { setCurrentTheme((currentTheme + 1) % themes.length); }, 5000);
 
  
@@ -190,11 +200,11 @@ return () => clearInterval(interval);
         <img src={themes[currentTheme].image} alt={themes[currentTheme].name} className="object-cover w-full h-full" />
          <div className="absolute top-0 left-0 w-full h-full bg-gray-900 opacity-50">
           </div> <motion.div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-             <h1 className="text-lg md:text-5xl font-bold dark:text-white">Welcome to Mobile Phone Store</h1> 
-             <p className="text-sm md:text-xl mt-4 dark:text-white">Explore our latest collection of mobile phones
+             <h1 className="text-lg md:text-5xl font-bold dark:text-white">{t('welcome2')}</h1> 
+             <p className="text-sm md:text-xl mt-4 dark:text-white">{t('explore')}
              </p> 
              <button className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-blue-700">
-              Shop Now
+              {t('shop')}
               </button> 
               </motion.div>
                </div>
@@ -229,9 +239,9 @@ return () => clearInterval(interval);
           <SideNavigation />
          <div className='flex flex-col md:flex-row flex-wrap  justify-center'>  
         {currentProducts .map((product) => (
-          <div key={product.id} className=" max-w-sm rounded overflow-hidden shadow-lg m-4 shrink grow  flex flex-col items-center dark:bg-neutral-300 bg-white p-2 dark:text-white">
-            <div className="w-44 h-48 flex flex-no-wrap overflow-x-auto dark:bg-neutral-300">
-              <img className="w-44 h-44 object-cover dark:bg-neutral-300" src={product.image} alt={product.title} />
+          <div key={product.id} className=" md:w-48  rounded overflow-hidden shadow-lg m-4 shrink grow  flex flex-col items-center dark:bg-neutral-300 bg-white p-2 dark:text-white">
+            <div className="md:w-48 md:h-48 flex justify-center flex-no-wrap  dark:bg-neutral-300">
+              <img className="object-contain dark:bg-neutral-300" src={product.image} alt={product.title} />
             </div>
             <div className="px-6 py-4  ">
               <div className="font-bold md:text-xl text-sm mb-2 dark:text-black">{product.title}dd</div>
@@ -339,7 +349,7 @@ return () => clearInterval(interval);
           </button>
         )}
       </div>
-  
+     
       <div className="bg-neutral-300 dark:bg-gray-800    border-white p-4 divide-y divide-dashed md:divide-solid">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center  gap-4 ">
           <div className='border-4 p-2' >

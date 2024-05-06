@@ -8,6 +8,9 @@ const resources = {
   en: {
     translation: {
       welcome: "Real Mobile Shopping",
+      welcome2:"Welcome to Mobile Phone Store",
+      explore:"explore our latest collection of products",
+      shop:"Shop now",
       Cart:"Cart",
       Price:"Price",
       Payment:"Send Payment",
@@ -50,6 +53,9 @@ const resources = {
   amh: {
     translation: {
       welcome: "ሪል የሞባይል መሸጫ ሱቅ",
+      welcome2:"እንኳን ወደ ሱቃችን በደህና መጡ",
+      explore:"የእኛን የቅርብ ጊዜ የምርት ስብስቦችን ያስሱ",
+      shop:"አሁን ይሸምቱ",
       Cart:"ጋሪ",
       Price:"ዋጋ",
       Payment:"ክፍያ ላክ",
