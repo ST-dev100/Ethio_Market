@@ -22,6 +22,13 @@ import {addProducts,removeCart2,addCart,addNumberOfItem,dicreaseNumberOfItem} fr
 import { motion,AnimatePresence } from 'framer-motion';
 import { useSpring, animated } from 'react-spring';
 import { useInView } from 'react-intersection-observer';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import LoginIcon from '@mui/icons-material/Login';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import CategoryIcon from '@mui/icons-material/Category';
+
 const Home = () => {
   const dispatch = useDispatch();
   const productsss = useSelector(state=>state.cart.products)
@@ -48,6 +55,7 @@ const Home = () => {
   const [language,setLang] = useState('amh');
   const [isVisible,setTest] = useState(true);
   const [currentTheme, setCurrentTheme] = useState(0);
+  const [avatar,setAvatar] = useState(false);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.5
@@ -161,7 +169,12 @@ return () => clearInterval(interval);
           <img src="/rift.png" alt="Company Logo" className="h-8 w-8 mr-2" />
           <span className="dark:text-white font-bold">{t('welcome')}</span>
         </div>
-        
+        <ul className='md:flex gap-2 dark:text-white hidden'>
+          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer'>Home</li>
+          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer'>Services</li>
+          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer'>About</li>
+
+        </ul>
         <div className="flex flex-row   items-center gap-2">
         <div className='bg-black'>
           <select className='cursor-pointer dark:bg-gray-800 dark:text-white'
@@ -180,21 +193,31 @@ return () => clearInterval(interval);
            <DarkModeIconl className='dark:text-yellow-400 cursor-pointer' onClick={()=>setDarkMode(!darkMode)}/>
           </p>
           <Badge className='cursor-pointer' badgeContent={notificationCount} color="error">
-            <Notifications className='dark:text-white' onClick={() => handleNotificationClick()} />
+            <ShoppingCartIcon className='dark:text-white' onClick={() => handleNotificationClick()} />
           </Badge>
         {/* {showOrderDetails &&  <OrderDetails handleClose = {handleCloseOrderDetails} />} */}
           
-          <div className="ml-4">
+          {/* <div className="ml-4 hidden md:block">
             <p className='dark:text-white'>{login}</p>
           </div>
-          <div className="ml-4">
+          <div className="ml-4 hidden md:block">
             <p className='dark:text-white'>{signup}</p>
+          </div> */}
+          <div className="ml-4 hidden md:block">
+            <Avatar onClick={()=>setAvatar(!avatar)} alt="Travis Howard" src="/static/images/avatar/2.jpg" className="cursor-pointer" />
+            {avatar && (
+            <div className='hidden md:block   pt-2 px-4 mt-4 fixed right-1 bg-neutral-300 dark:bg-gray-800'>
+                  <p className='dark:text-white text-lg'>{login}</p>
+                  <p className='dark:text-white text-lg mt-2'>{signup}</p>
+            </div>)}
           </div>
-          <div className="ml-4">
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-          </div>
+          <div className='md:hidden'>
+            <MenuIcon className="cursor-pointer dark:text-white hidden"  onClick={()=>handleCatagories()}/>
+        </div>
         </div>
       </div>
+
+     
     
       <div className="relative overflow-hidden h-96 z-0 cursor-pointer overflow-visible"> 
         <img src={themes[currentTheme].image} alt={themes[currentTheme].name} className="object-cover w-full h-full" />
@@ -211,22 +234,48 @@ return () => clearInterval(interval);
                {/* <p onClick={()=>setTest(!isVisible)}>X</p>
             <ExampleComponent isVisible={isVisible}/> */}
     <div className='grid grid-cols-5 '>
-      <div className={showCatacgories ? '' : 'hidden'}>
-           <div className=" bg-neutral-300 dark:bg-gray-800 text-black dark:text-white h-screen md:w-1/3 w-1/2 absolute top-24 shrink border-4">
-            <div className="p-4 relative">
-              <span className='absolute top-0 right-0'>
+    <AnimatePresence>
+      {showCatacgories && 
+         (<motion.div 
+          initial={{ opacity: 0}}
+          animate={{ opacity: 1}}
+          transition={{duration:2}}
+          exit={{ opacity: 0 }}>
+           <div className=" bg-neutral-300 dark:bg-gray-800 text-black dark:text-white  md:w-1/3 w-1/2 fixed top-20 right-0 md:hidden shrink border-4">
+            <div className="py-2 relative">
+              {/* <span className='absolute top-0 right-0'>
                 <Close className='cursor-pointer' onClick={()=>setCatagories(!showCatacgories)}/>
-              </span>
-              <h2 className="text-sm md:text-lg font-bold">{t('Catagory')}</h2>
+              </span> */}
+              {/* <h2 className="text-sm md:text-lg font-bold">{t('Catagory')}</h2> */}
             
-              <ul className="mt-4 text-sm md:text-lg">
-                <li className="py-2">{Phones}</li>
-                <li className="py-2">{Computers}</li>
-                <li className="py-2">{ElectronicDevices}</li>
+              <ul className=" text-sm md:text-lg flex flex-col items-center gap-2">
+                <li className="">
+                  <span><Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"/></span>
+                </li>
+                <li className=' w-24 hover:border-b-4 dark:border-white border-black cursor-pointer'>
+                  <HomeIcon style={{fontSize:'30px'}}/><span>{" "}Home</span>
+                </li>
+                <li className='hover:border-b-4 dark:border-white border-black cursor-pointer w-24 flex justify-start gap-1'>
+                  <CategoryIcon className="" style={{fontSize:'30px'}}/><span>Products</span>
+                </li>
+                <li className='hover:border-b-4 dark:border-white border-black cursor-pointer w-24 flex gap-1'>
+                  <InfoIcon className="ml-0" style={{fontSize:'30px'}}/>
+                  <span>About</span>
+                </li>
+                <li className='hover:border-b-4 dark:border-white border-black cursor-pointer w-24 flex gap-1'>
+                  <LoginIcon style={{fontSize:'30px'}}/>
+                  <span className="">{login}</span>
+                </li>
+                <li className='hover:border-b-4 dark:border-white border-black cursor-pointer w-24 flex gap-1'>
+                  <AppRegistrationIcon style={{fontSize:'30px'}}/>
+                  <span>{signup}</span>
+                  </li>
               </ul>
             </div>
           </div>
-      </div>
+      </motion.div>
+      )}
+    </AnimatePresence>
       <div className="flex  justify-left mt-4 col-span-5  ">
         {/* <SideNavigation /> */}
         {/* <span className="md:hidden">
@@ -237,30 +286,30 @@ return () => clearInterval(interval);
             <input className='border-2 p-1 md:text-sm text-xs' type="text" name="" placeholder={t('Search')} id="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           </div>
           <SideNavigation />
-         <div className='flex flex-col md:flex-row flex-wrap  justify-center'>  
+         <div className='flex flex-col md:flex-row flex-wrap  justify-center md:items-start items-center '>  
         {currentProducts .map((product) => (
-          <div key={product.id} className=" md:w-48  rounded overflow-hidden shadow-lg m-4 shrink grow  flex flex-col items-center dark:bg-neutral-300 bg-white p-2 dark:text-white">
-            <div className="md:w-48 md:h-48 flex justify-center flex-no-wrap  dark:bg-neutral-300">
+          <div key={product.id} className=" md:w-48 w-48 rounded overflow-hidden shadow-lg m-4 shrink grow  flex flex-col items-center dark:bg-neutral-300 bg-white p-2 dark:text-white">
+            <div className="md:w-48 md:h-48 w-20 flex justify-center flex-no-wrap  dark:bg-neutral-300">
               <img className="object-contain dark:bg-neutral-300" src={product.image} alt={product.title} />
             </div>
-            <div className="px-6 py-4  ">
-              <div className="font-bold md:text-xl text-sm mb-2 dark:text-black">{product.title}dd</div>
-              <p className="text-gray-700 dark:text-white md:text-lg text-sm text-base mb-2">{product.model}</p>
-              <p className="text-gray-700 dark:text-white text-base mb-2 md:text-sm text-xs">{t('Price')} ${product.price}</p>
-              <div className="flex items-center mb-2 md:text-lg text-sm">
+            <div className=" p-2 ">
+              <div className="font-bold md:text-xl text-xs  mb-2 dark:text-black  ">{product.title}dd</div>
+              <p className="text-gray-700 dark:text-white md:text-lg text-sm text-base ">{product.model}</p>
+              <p className="text-gray-700 dark:text-black text-sm mb-2 md:text-lg text-xs  font-bold">{t('Price')} ${product.price}</p>
+              <div className="flex items-center mb-2 md:text-lg text-sm ">
               {Array.from({ length: 5 }, (_, index) => (
                 <StarIcon 
-                    key={index} className="md:text-sm text-xs"
-                    style={{ color: index < Math.round(product.rating.rate) ? 'gold' : 'gray' }} 
+                    key={index} 
+                    style={{ color: index < Math.round(product.rating.rate) ? 'gold' : 'gray' ,fontSize:"1em"}} 
                 />
                 ))}
             </div>
               {cartItems.includes(product.id) ? (
-                <button onClick={() => removeFromCart(product.id)} className="bg-red-500 dark:bg-red dark:text-black dark:hover:bg-gray-400 hover:bg-black text-white font-bold py-2 px-4 rounded">
+                <button onClick={() => removeFromCart(product.id)} className="bg-red-500 text-xs md:text-lg  dark:bg-red dark:text-black dark:hover:bg-gray-400 hover:bg-black text-white font-bold py-2 px-4 rounded">
                   {removeCart}
                 </button>
               ) : (
-                <button onClick={() => addToCart(product.id)} className="bg-black  dark:bg-gray-400 dark:text-black dark:hover:bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <button onClick={() => addToCart(product.id)} className="bg-black text-xs md:text-lg  dark:bg-gray-400 dark:text-black dark:hover:bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                   {cart}
                 </button>
               )}
