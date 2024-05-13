@@ -28,8 +28,14 @@ import InfoIcon from '@mui/icons-material/Info';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import CategoryIcon from '@mui/icons-material/Category';
-
+import myVideo from "../../public/video.mp4"
+import RatingFilter from './RatingFilter';
+import PriceFilter from './PriceFilter';
+import BrandFilter from './BrandFilter';
+import DateFilter from './DateFilter';
+import LanguageOptions from './Language';
 const Home = () => {
+ 
   const dispatch = useDispatch();
   const productsss = useSelector(state=>state.cart.products)
   const items = useSelector(state=>state.cart.items)
@@ -38,6 +44,7 @@ const Home = () => {
   const { i18n } = useTranslation();
   const {home,login,signup,cart,removeCart} = t('navigationMenu');
   const {Phones,Computers,ElectronicDevices} = t('Catagories');
+  const {Brand,Price,Rating,Date}=t('SubCatagoryies');
   const {customerService,contact,shipping,returning,FAQ,Links,About,Privacy,Terms,Site,Newsettler,Subscribe,Subscribe2,Enter,Next,Prev} = t('Footer');
   const { data, error, isLoading } = useGettUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +63,10 @@ const Home = () => {
   const [isVisible,setTest] = useState(true);
   const [currentTheme, setCurrentTheme] = useState(0);
   const [avatar,setAvatar] = useState(false);
+  const [brand,setBrand] = useState(false);
+  const [price,setPrice] = useState(false);
+  const [rate,setRate] = useState(false);
+  const [date,setDate] = useState(false);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.5
@@ -73,7 +84,7 @@ return () => clearInterval(interval);
 
   const changeLanguage = (lng) => 
   { 
-    setLang(language)
+    setLang(lng)
     i18n.changeLanguage(lng); 
   };
 
@@ -163,32 +174,38 @@ return () => clearInterval(interval);
   
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className='dark:bg-gray-800 bg-neutral-300'>  
-      <div className="flex dark:bg-gray-800 bg-neutral-300 dark:border-b-2 md:text-lg text-xs justify-between md:items-center sticky top-0  p-4 z-10">
+      <div className='dark:bg-gray-800 grid grid-cols-5 bg-neutral-300 poetsen-one-regular'>  
+      <div className="flex dark:bg-gray-800 bg-neutral-300 col-span-5 dark:border-b-2 md:text-lg text-xs justify-between md:items-center sticky top-0  p-4 z-10">
         <div className='flex md:flex-row flex-col'>
           <img src="/rift.png" alt="Company Logo" className="h-8 w-8 mr-2" />
           <span className="dark:text-white font-bold">{t('welcome')}</span>
         </div>
         <ul className='md:flex gap-2 dark:text-white hidden'>
-          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer'>Home</li>
-          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer'>Services</li>
-          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer'>About</li>
+          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer poetsen-one-regular text-sm'>{t('home')}</li>
+          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer poetsen-one-regular text-sm'>{t('Blog')}</li>
+          <li className='hover:border-b-4 hover:dark:border-white border-black cursor-pointer poetsen-one-regular text-sm'>{t('About')}</li>
 
         </ul>
         <div className="flex flex-row   items-center gap-2">
-        <div className='bg-black'>
-          <select className='cursor-pointer dark:bg-gray-800 dark:text-white'
+        <div className='bg-black flex'>
+          <select className='cursor-pointer border-0 dark:bg-gray-800 dark:text-white text-xs '
             defaultValue={language}
             onChange={(e) => 
             changeLanguage(e.target.value)}>
-              <option value="en" className='cursor-pointer'>
+              <option value="en" className='cursor-pointer border-2 border-red-600'>
                 English
               </option>
-              <option value="amh" className='cursor-pointer' >
-                አማርኛ
+              <option value="amh" className='cursor-pointer ' >
+                Amh
               </option>
             </select> 
+            {language==="en" && (<img src="en.png"  className="h-4 w-4 border-2" alt='l'/>)}
+            {language==="amh" && (<img src="eth.png"  className="h-4 w-4 border-2" alt='l'/>)}
+
+            {/* <div class='text-white h-24 bg-[url("en.png")] bg-cover'>rrrr</div> */}
           </div>
+          
+
           <p className='ml-2'>
            <DarkModeIconl className='dark:text-yellow-400 cursor-pointer' onClick={()=>setDarkMode(!darkMode)}/>
           </p>
@@ -219,8 +236,12 @@ return () => clearInterval(interval);
 
      
     
-      <div className="relative overflow-hidden h-96 z-0 cursor-pointer overflow-visible"> 
-        <img src={themes[currentTheme].image} alt={themes[currentTheme].name} className="object-cover w-full h-full" />
+      <div className="relative overflow-hidden col-span-5 h-96 z-0 cursor-pointer overflow-visible"> 
+        {/* <img src={themes[currentTheme].image} alt={themes[currentTheme].name} className="object-cover w-full h-full" /> */}
+      <div className='w-full h-full'>
+        <video className="object-cover w-full h-full" src="video.mp4" loop autoPlay muted />
+      </div>
+
          <div className="absolute top-0 left-0 w-full h-full bg-gray-900 opacity-50">
           </div> <motion.div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
              <h1 className="text-lg md:text-5xl font-bold dark:text-white">{t('welcome2')}</h1> 
@@ -230,16 +251,16 @@ return () => clearInterval(interval);
               {t('shop')}
               </button> 
               </motion.div>
-               </div>
+        </div>
                {/* <p onClick={()=>setTest(!isVisible)}>X</p>
             <ExampleComponent isVisible={isVisible}/> */}
-    <div className='grid grid-cols-5 '>
+    <div className='grid grid-cols-5 col-span-5 border-4 border-red-600 overflow-auto'>
     <AnimatePresence>
       {showCatacgories && 
          (<motion.div 
           initial={{ opacity: 0}}
           animate={{ opacity: 1}}
-          transition={{duration:2}}
+          transition={{duration:1}}
           exit={{ opacity: 0 }}>
            <div className=" bg-neutral-300 dark:bg-gray-800 text-black dark:text-white  md:w-1/3 w-1/2 fixed top-20 right-0 md:hidden shrink border-4">
             <div className="py-2 relative">
@@ -281,35 +302,83 @@ return () => clearInterval(interval);
         {/* <span className="md:hidden">
           <MenuIcon className="cursor-pointer dark:text-white" style={{fontSize: '2.5rem' }} onClick={()=>handleCatagories()}/>
         </span> */}
-        <div className='grow flex flex-col'>
-          <div className='md:ml-32 ml-10'>
-            <input className='border-2 p-1 md:text-sm text-xs' type="text" name="" placeholder={t('Search')} id="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+        <div className='grid md:grid-cols-4 grid:cols-1 w-screen b'>
+          <div className='md:ml-32 ml-10 col-span-4'>
+            <input className='border-2 p-1 md:text-sm text-xs rounded-full' type="text" name="" placeholder={t('Search')} id="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           </div>
           <SideNavigation />
-         <div className='flex flex-col md:flex-row flex-wrap  justify-center md:items-start items-center '>  
+          <div className='text-sm ml-2 space-y-2 dark:text-white md:col-span-1 col-span-5  md:flex flex-col   font-bold'>
+           <h1 className="self-center">{t('Filter')}</h1>
+           <div  className=' p-2'>
+            <h1 className='tracking-widest flex gap-2 border-4 md:justify-start justify-center rounded-lg p-2 transform hover:scale-105 bg-white dark:bg-gray-700'>
+              <span className='cursor-pointer' onClick={()=>setBrand(!brand)}>
+              {brand ? (<p>-</p>):(<p>+</p>)}
+              </span> 
+             {Brand}
+            </h1>
+            <div className=' ml-2 p-2'>
+             {brand && (<BrandFilter/>) }
+
+            </div>
+           
+           <h1 className='tracking-widest flex gap-2 md:justify-start justify-center rounded-lg p-2 border-4 transform hover:scale-105 bg-white dark:bg-gray-700'>
+              <span className='cursor-pointer' onClick={()=>setPrice(!price)}>
+              {price ? (<p>-</p>):(<p>+</p>)}
+              </span> 
+             {Price}
+            </h1>
+            <div className=' ml-2 p-2'>
+               {price && (<PriceFilter/>)}
+           </div>
+           
+           <h1 className='tracking-widest flex gap-2 md:justify-start justify-center rounded-lg p-2 border-4 transform hover:scale-105 bg-white dark:bg-gray-700'>
+              <span className='cursor-pointer' onClick={()=>setRate(!rate)}>
+              {rate ? (<p>-</p>):(<p>+</p>)}
+              </span> 
+             {Rating}
+            </h1>
+            <div className=' ml-2 p-2'>
+               {rate && (<RatingFilter/>) }
+           </div>
+           
+           <h1 className='tracking-widest flex gap-2 md:justify-start justify-center rounded-lg p-2 border-4 transform hover:scale-105 bg-white dark:bg-gray-700'>
+              <span className='cursor-pointer' onClick={()=>setDate(!date)}>
+              {date ? (<p>-</p>):(<p>+</p>)}
+              </span> 
+             {Date}
+            </h1>
+            <div className=' ml-2 p-2'>
+               {date && (<DateFilter/>)}
+           </div>
+          </div>
+      
+         </div>
+         <div className='md:col-span-3 md:col-start-2 col-start-2 col-end-4 md:col-end-5 flex flex-col md:flex-row flex-wrap md:justify-start justify-center md:items-center items-center md:ml-4'> 
+         
         {currentProducts .map((product) => (
-          <div key={product.id} className=" md:w-48 w-48 rounded overflow-hidden shadow-lg m-4 shrink grow  flex flex-col items-center dark:bg-neutral-300 bg-white p-2 dark:text-white">
-            <div className="md:w-48 md:h-48 w-20 flex justify-center flex-no-wrap  dark:bg-neutral-300">
+          <div key={product.id} className=" md:w-48 md:h-48 w-48 rounded overflow-y-auto shadow-lg m-4 shrink md:grow-0 grow  flex flex-col items-center dark:bg-gray-700 bg-white p-2 dark:text-white">
+            <div className="md:w-20 md:h-12 w-20 flex justify-center flex-no-wrap  dark:bg-neutral-300">
               <img className="object-contain dark:bg-neutral-300" src={product.image} alt={product.title} />
             </div>
             <div className=" p-2 ">
-              <div className="font-bold md:text-xl text-xs  mb-2 dark:text-black  ">{product.title}dd</div>
-              <p className="text-gray-700 dark:text-white md:text-lg text-sm text-base ">{product.model}</p>
-              <p className="text-gray-700 dark:text-black text-sm mb-2 md:text-lg text-xs  font-bold">{t('Price')} ${product.price}</p>
-              <div className="flex items-center mb-2 md:text-lg text-sm ">
+              <div className="font-medium md:text-sm text-xs  mb-2 dark:text-gray-300  tracking-wider">{product.title}</div>
+              <p className="text-gray-700 dark:text-gray-300 md:text-sm text-xs ">{product.model}</p>
+              <p className="text-gray-700 dark:text-gray-300 mb-2 md:text-sm text-xs  font-bold">{t('Price')} ${product.price}</p>
+              <div className="flex items-center mb-2 md:text-sm text-xs ">
               {Array.from({ length: 5 }, (_, index) => (
                 <StarIcon 
                     key={index} 
-                    style={{ color: index < Math.round(product.rating.rate) ? 'gold' : 'gray' ,fontSize:"1em"}} 
+                    style={{fontSize:"1em"}}
+                    className={index < Math.round(product.rating.rate) ? 'text-black dark:text-amber-500 ' : 'text-neutral-400'} 
                 />
                 ))}
             </div>
               {cartItems.includes(product.id) ? (
-                <button onClick={() => removeFromCart(product.id)} className="bg-red-500 text-xs md:text-lg  dark:bg-red dark:text-black dark:hover:bg-gray-400 hover:bg-black text-white font-bold py-2 px-4 rounded">
+                <button onClick={() => removeFromCart(product.id)} className="bg-red-500 text-xs md:text-xs dark:bg-red dark:text-black dark:hover:bg-gray-400 hover:bg-black text-white font-bold py-2 px-2 rounded">
                   {removeCart}
                 </button>
               ) : (
-                <button onClick={() => addToCart(product.id)} className="bg-black text-xs md:text-lg  dark:bg-gray-400 dark:text-black dark:hover:bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <button onClick={() => addToCart(product.id)} className="bg-black text-xs md:text-xs  dark:bg-gray-400 dark:text-black dark:hover:bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-2 rounded">
                   {cart}
                 </button>
               )}
@@ -386,7 +455,7 @@ return () => clearInterval(interval);
         
       </div>
       </div>
-      <div className="flex justify-center my-4 shrink">
+      <div className="flex justify-center  shrink col-span-5">
         {currentPage > 1 && (
           <button onClick={() => paginate(currentPage - 1)} className="bg-white dark:bg-gray-400 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-neutral-300 text-gray-800 font-bold py-2 px-4 mr-2 rounded">
             {Prev}
@@ -399,7 +468,7 @@ return () => clearInterval(interval);
         )}
       </div>
      
-      <div className="bg-neutral-300 dark:bg-gray-800    border-white p-4 divide-y divide-dashed md:divide-solid">
+      <div className="bg-neutral-300 dark:bg-gray-800  col-span-5  border-white p-4 divide-y divide-dashed md:divide-solid">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center  gap-4 ">
           <div className='border-4 p-2' >
             <h2 className='dark:text-white font-bold'>{customerService}</h2>
@@ -453,7 +522,7 @@ const SideNavigation = () => {
   const {Phones,Computers,ElectronicDevices} = t('Catagories');
 
   return (
-    <div className=" bg-neutral-300 dark:bg-gray-800 dark:text-white text-black mt-2   shrink  dark:border-0">
+    <div className="col-span-4 bg-neutral-300 dark:bg-gray-800 dark:text-white text-black mt-2   shrink  dark:border-0">
       <div className="p-4">
         <h2 className="md:text-lg text-sm font-bold text-center">{t('Catagory')}</h2>
         <ul className="mt-4 md:text-sm text-xs flex justify-center gap-2">

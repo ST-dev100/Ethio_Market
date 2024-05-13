@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Products = require('./Models/ProductsModel.js')
+const ListProducts = require('./Routers/Products.js')
 const app = express();
 
 app.use(cors());
@@ -20,6 +21,7 @@ const config = {
       // Add any other headers or configurations needed
   }
 };
+app.use('/',ListProducts);
 app.get('/users', (req, res) => {
     res.send("Happy  😊") 
   });

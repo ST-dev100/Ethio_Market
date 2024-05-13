@@ -1,4 +1,27 @@
-import React from 'react'
+import React,{useState} from 'react'
+import StarIcon from '@mui/icons-material/Star';
+
+
+const ratings = [5, 4, 3, 2, 1];
+
+const Checkbox = ({ value, onChange, checked }) => (
+  <label className="flex items-center space-x-1 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={onChange}
+      className="checked:bg-blue-500 checked:border-transparent"
+    />
+     {Array.from({ length: 5 }, (_, index) => (
+                <StarIcon 
+                    key={index} 
+                    style={{ color: index < Math.round(value) ? 'gold' : 'gray' ,fontSize:"1em"}} 
+                />
+                ))}
+   
+    
+  </label>
+);
 
 const order = { id: 1, items: [ { id: 1, name: 'Item 1', price: 10 }, { id: 2, name: 'Item 2', price: 15 }, { id: 3, name: 'Item 3', price: 20 }, ], total: 45, };
 const products = [
@@ -26,6 +49,15 @@ const products = [
 ];
 
 const Orders = ()=>{
+  const [selectedRatings, setSelectedRatings] = useState([]);
+
+  const handleCheckboxChange = (value) => {
+    if (selectedRatings.includes(value)) {
+      setSelectedRatings(selectedRatings.filter((rating) => rating !== value));
+    } else {
+      setSelectedRatings([...selectedRatings, value]);
+    }
+  };
     return (
         <div className="max-w-screen-lg mx-auto flex flex-col md:flex-row justify-between">
           <div className="flex-1">
@@ -62,6 +94,16 @@ const Orders = ()=>{
             </div>
     </form>
          <ProductList/> 
+      <div className="flex flex-col space-y-2">
+        {ratings.map((rating) => (
+          <Checkbox
+            key={rating}
+            value={rating}
+            checked={selectedRatings.includes(rating)}
+            onChange={() => handleCheckboxChange(rating)}
+          />
+        ))}
+      </div>
         </div>
       );
 }

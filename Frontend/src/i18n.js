@@ -7,6 +7,10 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
+      Blog:"Blog",
+      About:"About",
+      Filter:"Filter",
+      home:"Home",
       welcome: "Real Mobile Shopping",
       welcome2:"Welcome to Mobile Phone Store",
       explore:"explore our latest collection of products",
@@ -22,6 +26,12 @@ const resources = {
         Phones:"Phones",
         Computers:"Computers",
         ElectronicDevices:"ElectronicDevices"
+      },
+      SubCatagoryies:{
+        Brand:"Brand",
+        Price:"Price",
+        Rating:"Rating",
+        Date:"Date"
       },
       navigationMenu:{
         home:'Home',
@@ -52,6 +62,10 @@ const resources = {
   },
   amh: {
     translation: {
+      Blog:"ብሎግ",
+      About:"ስለ እኛ",
+      Filter:"ማጣሪያ",
+      home:"መግቢያ",
       welcome: "ሪል የሞባይል መሸጫ ሱቅ",
       welcome2:"እንኳን ወደ ሱቃችን በደህና መጡ",
       explore:"የእኛን የቅርብ ጊዜ የምርት ስብስቦችን ያስሱ",
@@ -67,6 +81,12 @@ const resources = {
         Phones:"ስልኮች",
         Computers:"ኮምፒውተሮች",
         ElectronicDevices:"የኤሌክትሮኒክስ መሳሪያዎች"
+      },
+      SubCatagoryies:{
+        Brand:"የምርት ስም",
+        Price:"ዋጋ",
+        Rating:"ደረጃ መስጠት",
+        Date:"ቀን"
       },
       navigationMenu:{
         home:'Home',
