@@ -254,7 +254,7 @@ return () => clearInterval(interval);
         </div>
                {/* <p onClick={()=>setTest(!isVisible)}>X</p>
             <ExampleComponent isVisible={isVisible}/> */}
-    <div className='grid grid-cols-5 col-span-5 border-4 border-red-600 overflow-auto'>
+    <div className='grid grid-cols-5 col-span-5  overflow-auto'>
     <AnimatePresence>
       {showCatacgories && 
          (<motion.div 
