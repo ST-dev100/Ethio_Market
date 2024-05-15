@@ -34,6 +34,7 @@ import PriceFilter from './PriceFilter';
 import BrandFilter from './BrandFilter';
 import DateFilter from './DateFilter';
 import LanguageOptions from './Language';
+import TestForFilter from './TestForFilter'
 const Home = () => {
  
   const dispatch = useDispatch();
@@ -430,7 +431,7 @@ return () => clearInterval(interval);
                   <p>{t('Total')} : {total}$</p>
                           <form method="POST" action="https://api.chapa.co/v1/hosted/pay" >
             <input type="hidden" name="public_key" value="CHAPUBK_TEST-pydPLApELW4IaBBnbSSIXt81wY2JNVkd" />
-            <input type="hidden" name="tx_ref" value={`negade-tx-1e32334244ro44r9${Date.now()}`} />
+            <input type="hidden" name="tx_ref" value={`negade-tx-1e32334244ro44r9${Date.now}`} />
             <input type="hidden" name="amount" value={total} />
             <input type="hidden" name="currency" value="ETB" />
             <input type="hidden" name="email" value="simalike245@gmail.com" />
@@ -467,7 +468,7 @@ return () => clearInterval(interval);
           </button>
         )}
       </div>
-     
+     {/* <TestForFilter/> */}
       <div className="bg-neutral-300 dark:bg-gray-800  col-span-5  border-white p-4 divide-y divide-dashed md:divide-solid">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center  gap-4 ">
           <div className='border-4 p-2' >
